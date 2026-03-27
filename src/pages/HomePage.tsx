@@ -54,23 +54,6 @@ export default function HomePage({ onNavigate, onOpenAppointment }: HomePageProp
             Достоверные сведения о заболеваниях, синдромах и методах лечения — на основе доказательной медицины и актуальных клинических рекомендаций.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => onNavigate('diseases')}
-              className="btn-flash px-8 py-4 rounded-2xl font-golos font-semibold text-white text-base shadow-xl flex items-center gap-2 justify-center"
-              style={{ backgroundColor: 'var(--terracotta)' }}
-            >
-              <span>Найти информацию</span>
-            </button>
-            <button
-              onClick={() => onOpenAppointment('question')}
-              className="btn-flash px-8 py-4 rounded-2xl font-golos font-semibold text-white text-base flex items-center gap-2 justify-center"
-              style={{ backgroundColor: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)', backdropFilter: 'blur(8px)' }}
-            >
-              <span>Задать вопрос врачу</span>
-            </button>
-          </div>
-
           {/* Stats */}
           <div className="mt-16 grid grid-cols-3 gap-6 max-w-lg mx-auto">
             {[
