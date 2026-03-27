@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import DiseaseCarousel from '@/components/DiseaseCarousel';
 import Icon from '@/components/ui/icon';
 import { diseases, syndromes, diseaseSearchSuggestions, syndromeSearchSuggestions } from '@/data/medicalData';
@@ -5,9 +6,25 @@ import { diseases, syndromes, diseaseSearchSuggestions, syndromeSearchSuggestion
 interface InfoPageProps {
   onNavigate: (page: string) => void;
   onItemClick: (slug: string, title: string, type: 'disease' | 'syndrome') => void;
+  scrollTo: 'diseases' | 'syndromes' | null;
 }
 
-export default function InfoPage({ onNavigate, onItemClick }: InfoPageProps) {
+export default function InfoPage({ onNavigate, onItemClick, scrollTo }: InfoPageProps) {
+  const diseasesRef = useRef<HTMLDivElement>(null);
+  const syndromesRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (scrollTo === 'diseases' && diseasesRef.current) {
+      setTimeout(() => {
+        diseasesRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    } else if (scrollTo === 'syndromes' && syndromesRef.current) {
+      setTimeout(() => {
+        syndromesRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+  }, [scrollTo]);
+
   return (
     <div className="pt-24 pb-16 min-h-screen mesh-bg">
       <div className="container mx-auto px-4">
@@ -25,15 +42,41 @@ export default function InfoPage({ onNavigate, onItemClick }: InfoPageProps) {
           </p>
         </div>
 
+        {/* Anchor tabs */}
+        <div className="flex justify-center gap-3 mb-12">
+          <button
+            onClick={() => {
+              diseasesRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }}
+            className="flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-golos font-semibold transition-all duration-200 shadow-sm"
+            style={{ backgroundColor: 'var(--terracotta)', color: 'white' }}
+          >
+            <Icon name="Activity" size={16} className="text-white" />
+            Заболевания
+          </button>
+          <button
+            onClick={() => {
+              syndromesRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }}
+            className="flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-golos font-semibold transition-all duration-200 shadow-sm"
+            style={{ backgroundColor: 'var(--sage)', color: 'white' }}
+          >
+            <Icon name="Stethoscope" size={16} className="text-white" />
+            Синдромы
+          </button>
+        </div>
+
         {/* Diseases carousel */}
-        <DiseaseCarousel
-          title="Распространённые заболевания"
-          subtitle="12 наиболее частых нозологий с подробными описаниями"
-          items={diseases}
-          searchPlaceholder="Введите заболевание..."
-          searchSuggestions={diseaseSearchSuggestions}
-          onCardClick={(slug, title) => onItemClick(slug, title, 'disease')}
-        />
+        <div ref={diseasesRef} style={{ scrollMarginTop: '96px' }}>
+          <DiseaseCarousel
+            title="Распространённые заболевания"
+            subtitle="12 наиболее частых нозологий с подробными описаниями"
+            items={diseases}
+            searchPlaceholder="Введите заболевание..."
+            searchSuggestions={diseaseSearchSuggestions}
+            onCardClick={(slug, title) => onItemClick(slug, title, 'disease')}
+          />
+        </div>
 
         {/* Divider */}
         <div className="flex items-center gap-4 my-12">
@@ -43,14 +86,16 @@ export default function InfoPage({ onNavigate, onItemClick }: InfoPageProps) {
         </div>
 
         {/* Syndromes carousel */}
-        <DiseaseCarousel
-          title="Синдромы и состояния"
-          subtitle="12 синдромов с кратким описанием клинической картины"
-          items={syndromes}
-          searchPlaceholder="Введите синдром..."
-          searchSuggestions={syndromeSearchSuggestions}
-          onCardClick={(slug, title) => onItemClick(slug, title, 'syndrome')}
-        />
+        <div ref={syndromesRef} style={{ scrollMarginTop: '96px' }}>
+          <DiseaseCarousel
+            title="Синдромы и состояния"
+            subtitle="12 синдромов с кратким описанием клинической картины"
+            items={syndromes}
+            searchPlaceholder="Введите синдром..."
+            searchSuggestions={syndromeSearchSuggestions}
+            onCardClick={(slug, title) => onItemClick(slug, title, 'syndrome')}
+          />
+        </div>
 
         {/* Articles promo block */}
         <div className="mt-16 rounded-3xl overflow-hidden shadow-lg"

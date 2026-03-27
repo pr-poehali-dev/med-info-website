@@ -3,10 +3,100 @@ import Icon from '@/components/ui/icon';
 import { articles } from '@/data/medicalData';
 
 const categories = ['Все', 'Кардиология', 'Эндокринология', 'Неврология', 'Пульмонология', 'Гастроэнтерология', 'Иммунология'];
+const PAGE_SIZE = 6;
+
+interface Article {
+  id: string;
+  category: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  readTime: string;
+  icon: string;
+}
+
+function ArticleModal({ article, onClose }: { article: Article; onClose: () => void }) {
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      style={{ backgroundColor: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(4px)' }}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
+      <div
+        className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl relative animate-scale-in overflow-hidden"
+        style={{ maxHeight: '85vh', overflowY: 'auto' }}
+      >
+        <div className="h-1.5 w-full" style={{ background: 'linear-gradient(90deg, #3B7DD8, var(--sage), var(--mint))' }} />
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 w-9 h-9 rounded-xl flex items-center justify-center text-light-text hover:bg-gray-100 hover:text-dark-text transition-all z-10"
+        >
+          <Icon name="X" size={18} />
+        </button>
+        <div className="p-8">
+          <div className="flex items-start gap-4 mb-6">
+            <div className="text-5xl shrink-0">{article.icon}</div>
+            <div>
+              <span className="inline-block px-3 py-1 rounded-full text-xs font-golos font-medium mb-2"
+                style={{ backgroundColor: 'rgba(129,178,154,0.12)', color: 'var(--sage)' }}>
+                {article.category}
+              </span>
+              <h2 className="font-cormorant font-bold text-2xl text-dark-text leading-snug">{article.title}</h2>
+              <div className="flex items-center gap-4 mt-2 text-xs text-light-text font-golos">
+                <div className="flex items-center gap-1">
+                  <Icon name="Calendar" size={12} />{article.date}
+                </div>
+                <div className="flex items-center gap-1">
+                  <Icon name="Clock" size={12} />{article.readTime}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="prose font-golos text-dark-text space-y-4">
+            <p className="text-base leading-relaxed text-light-text">{article.excerpt}</p>
+            <div className="p-4 rounded-2xl border-l-4 my-4"
+              style={{ backgroundColor: 'rgba(129,178,154,0.07)', borderColor: 'var(--sage)' }}>
+              <p className="text-sm font-golos text-dark-text font-medium">Ключевые выводы:</p>
+              <ul className="mt-2 space-y-1 text-sm text-light-text list-disc list-inside">
+                <li>Доказательная база подтверждает эффективность современных подходов</li>
+                <li>Рекомендации обновлены согласно данным 2024 года</li>
+                <li>Важно индивидуализировать терапию для каждого пациента</li>
+              </ul>
+            </div>
+            <p className="text-sm text-light-text leading-relaxed">
+              Современная медицинская наука непрерывно развивается. Данная статья представляет обзор актуальных
+              исследований в области {article.category.toLowerCase()} и может использоваться как отправная точка
+              для дальнейшего изучения темы. Проконсультируйтесь с врачом перед принятием медицинских решений.
+            </p>
+          </div>
+
+          <div className="flex gap-3 mt-8 pt-6 border-t border-gray-100">
+            <button
+              onClick={onClose}
+              className="flex-1 py-3 rounded-xl font-golos font-semibold text-dark-text bg-gray-50 hover:bg-gray-100 transition-colors text-sm"
+            >
+              Закрыть
+            </button>
+            <button
+              className="flex-1 btn-flash py-3 rounded-xl font-golos font-semibold text-white text-sm flex items-center justify-center gap-2"
+              style={{ backgroundColor: '#3B7DD8' }}
+            >
+              <Icon name="ExternalLink" size={15} className="text-white" />
+              Открыть полную версию
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function ArticlesPage() {
   const [activeCategory, setActiveCategory] = useState('Все');
   const [searchQuery, setSearchQuery] = useState('');
+  const [page, setPage] = useState(1);
+  const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
 
   const filtered = articles.filter((a) => {
     const matchCat = activeCategory === 'Все' || a.category === activeCategory;
@@ -14,6 +104,14 @@ export default function ArticlesPage() {
       a.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
     return matchCat && matchSearch;
   });
+
+  const shown = filtered.slice(0, page * PAGE_SIZE);
+  const hasMore = shown.length < filtered.length;
+
+  const handleCategoryChange = (cat: string) => {
+    setActiveCategory(cat);
+    setPage(1);
+  };
 
   return (
     <div className="pt-24 pb-16 min-h-screen mesh-bg">
@@ -37,7 +135,7 @@ export default function ArticlesPage() {
           <Icon name="Search" size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-light-text" />
           <input
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
             placeholder="Поиск по статьям..."
             className="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-gray-200 bg-white font-golos text-sm text-dark-text placeholder:text-light-text focus:outline-none focus:ring-2 focus:ring-sage/30 focus:border-sage shadow-sm transition-all"
           />
@@ -48,7 +146,7 @@ export default function ArticlesPage() {
           {categories.map((cat) => (
             <button
               key={cat}
-              onClick={() => setActiveCategory(cat)}
+              onClick={() => handleCategoryChange(cat)}
               className={`px-4 py-2 rounded-xl text-sm font-golos font-medium transition-all duration-200 ${
                 activeCategory === cat
                   ? 'text-white shadow-md'
@@ -63,11 +161,11 @@ export default function ArticlesPage() {
 
         {/* Articles grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((article, i) => (
+          {shown.map((article, i) => (
             <article
               key={article.id}
               className="disease-card bg-card-bg rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex flex-col"
-              style={{ animationDelay: `${i * 0.1}s` }}
+              style={{ animationDelay: `${i * 0.05}s` }}
             >
               <div className="p-6 flex-1 flex flex-col">
                 <div className="flex items-center justify-between mb-4">
@@ -91,6 +189,7 @@ export default function ArticlesPage() {
                     </div>
                   </div>
                   <button
+                    onClick={() => setSelectedArticle(article)}
                     className="btn-flash px-4 py-1.5 rounded-lg text-xs font-golos font-semibold text-white"
                     style={{ backgroundColor: 'var(--terracotta)' }}
                   >
@@ -111,16 +210,29 @@ export default function ArticlesPage() {
         )}
 
         {/* Load more */}
-        <div className="text-center mt-10">
-          <button
-            className="btn-flash px-10 py-4 rounded-2xl font-golos font-semibold text-white shadow-md flex items-center gap-2 mx-auto"
-            style={{ backgroundColor: 'var(--terracotta)' }}
-          >
-            <Icon name="RefreshCw" size={16} className="text-white" />
-            Загрузить ещё
-          </button>
-        </div>
+        {hasMore && (
+          <div className="text-center mt-10">
+            <button
+              onClick={() => setPage((p) => p + 1)}
+              className="btn-flash px-10 py-4 rounded-2xl font-golos font-semibold text-white shadow-md flex items-center gap-2 mx-auto"
+              style={{ backgroundColor: 'var(--terracotta)' }}
+            >
+              <Icon name="RefreshCw" size={16} className="text-white" />
+              Загрузить ещё
+            </button>
+          </div>
+        )}
+
+        {!hasMore && filtered.length > 0 && (
+          <div className="text-center mt-8">
+            <p className="text-light-text font-golos text-sm">Показаны все {filtered.length} статей</p>
+          </div>
+        )}
       </div>
+
+      {selectedArticle && (
+        <ArticleModal article={selectedArticle} onClose={() => setSelectedArticle(null)} />
+      )}
     </div>
   );
 }

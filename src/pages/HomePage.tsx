@@ -3,6 +3,7 @@ import Icon from '@/components/ui/icon';
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
+  onOpenAppointment: (type?: 'consultation' | 'question') => void;
 }
 
 const benefits = [
@@ -12,7 +13,7 @@ const benefits = [
   { icon: '🔒', title: 'Конфиденциальность', text: 'Ваши данные защищены и никогда не передаются третьим лицам.' },
 ];
 
-export default function HomePage({ onNavigate }: HomePageProps) {
+export default function HomePage({ onNavigate, onOpenAppointment }: HomePageProps) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -56,17 +57,17 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={() => onNavigate('diseases')}
-              className="btn-flash px-8 py-4 rounded-2xl font-golos font-semibold text-white text-base shadow-xl"
+              className="btn-flash px-8 py-4 rounded-2xl font-golos font-semibold text-white text-base shadow-xl flex items-center gap-2 justify-center"
               style={{ backgroundColor: 'var(--terracotta)' }}
             >
-              Заболевания и синдромы
+              <span>Найти информацию</span>
             </button>
             <button
-              onClick={() => onNavigate('articles')}
-              className="btn-flash px-8 py-4 rounded-2xl font-golos font-semibold text-white text-base"
+              onClick={() => onOpenAppointment('question')}
+              className="btn-flash px-8 py-4 rounded-2xl font-golos font-semibold text-white text-base flex items-center gap-2 justify-center"
               style={{ backgroundColor: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)', backdropFilter: 'blur(8px)' }}
             >
-              Научные статьи
+              <span>Задать вопрос врачу</span>
             </button>
           </div>
 
@@ -138,7 +139,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                   Найти информацию
                 </button>
                 <button
-                  onClick={() => onNavigate('contacts')}
+                  onClick={() => onOpenAppointment('question')}
                   className="btn-flash px-8 py-4 rounded-2xl font-golos font-semibold text-white text-base"
                   style={{ backgroundColor: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.4)' }}
                 >
