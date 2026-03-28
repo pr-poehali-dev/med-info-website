@@ -261,17 +261,7 @@ export default function DiseaseCarousel({
               Перейти
             </button>
           </div>
-          {searchInput.trim() && (
-            <a
-              href={`https://ru.wikipedia.org/wiki/${encodeURIComponent(searchInput.trim().replace(/ /g, '_'))}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-3 flex items-center justify-center gap-1.5 w-full py-2 rounded-xl text-xs font-golos font-medium border border-teal-200 bg-teal-50 text-teal-600 hover:bg-teal-100 transition-colors"
-            >
-              <Icon name="ExternalLink" size={12} />
-              Подробнее о «{searchInput.trim()}» на Википедии
-            </a>
-          )}
+
         </div>
       </div>
     </div>
