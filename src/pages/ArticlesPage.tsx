@@ -22,6 +22,11 @@ interface Article {
   keyPoints?: string[];
 }
 
+function buildPubMedUrl(article: Article): string {
+  const terms = [article.title, article.category].join(' ');
+  return `https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(terms)}&sort=relevance`;
+}
+
 function ArticleModal({ article, onClose }: { article: Article; onClose: () => void }) {
   return (
     <div
@@ -87,7 +92,7 @@ function ArticleModal({ article, onClose }: { article: Article; onClose: () => v
               Закрыть
             </button>
             <a
-              href={article.url || '#'}
+              href={buildPubMedUrl(article)}
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 btn-flash py-3 rounded-xl font-golos font-semibold text-white text-sm flex items-center justify-center gap-2"
@@ -106,9 +111,15 @@ function ArticleModal({ article, onClose }: { article: Article; onClose: () => v
 export default function ArticlesPage() {
   const [activeCategory, setActiveCategory] = useState('Все');
   const [activeYear, setActiveYear] = useState('Все');
+  const [searchInput, setSearchInput] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
+
+  const handleSearch = () => {
+    setSearchQuery(searchInput);
+    setPage(1);
+  };
 
   const years = ['Все', ...Array.from(new Set(articles.map((a) => getYear(a.date)))).sort((a, b) => Number(b) - Number(a))];
 
@@ -151,14 +162,25 @@ export default function ArticlesPage() {
         </div>
 
         {/* Search */}
-        <div className="max-w-xl mx-auto mb-8 relative">
-          <Icon name="Search" size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-light-text" />
-          <input
-            value={searchQuery}
-            onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
-            placeholder="Поиск по статьям..."
-            className="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-gray-200 bg-white font-golos text-sm text-dark-text placeholder:text-light-text focus:outline-none focus:ring-2 focus:ring-sage/30 focus:border-sage shadow-sm transition-all"
-          />
+        <div className="max-w-xl mx-auto mb-8 flex gap-2">
+          <div className="relative flex-1">
+            <Icon name="Search" size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-light-text pointer-events-none" />
+            <input
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter') handleSearch(); }}
+              placeholder="Поиск по статьям..."
+              className="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-gray-200 bg-white font-golos text-sm text-dark-text placeholder:text-light-text focus:outline-none focus:ring-2 focus:ring-sage/30 focus:border-sage shadow-sm transition-all"
+            />
+          </div>
+          <button
+            onClick={handleSearch}
+            className="btn-flash px-5 py-3.5 rounded-2xl font-golos font-semibold text-white text-sm shadow-sm flex items-center gap-2 shrink-0"
+            style={{ backgroundColor: '#3B7DD8' }}
+          >
+            <Icon name="ArrowRight" size={16} className="text-white" />
+            Перейти
+          </button>
         </div>
 
         {/* Categories */}
