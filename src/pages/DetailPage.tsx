@@ -16,6 +16,11 @@ interface WikiSection {
   content: string;
 }
 
+interface WikiResult {
+  sections: WikiSection[];
+  url: string;
+}
+
 const sectionIcons: Record<string, string> = {
   'Симптомы': '🔍',
   'Симптоматика': '🔍',
@@ -42,8 +47,7 @@ function getIcon(heading: string): string {
   return '📋';
 }
 
-async function fetchWikiSections(query: string): Promise<WikiSection[] | null> {
-  // 1. Ищем страницу
+async function fetchWikiData(query: string): Promise<WikiResult | null> {
   const searchUrl = `https://ru.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&origin=*&srlimit=1`;
   const searchRes = await fetch(searchUrl);
   const searchData = await searchRes.json();
@@ -51,8 +55,8 @@ async function fetchWikiSections(query: string): Promise<WikiSection[] | null> {
   if (!hits || hits.length === 0) return null;
 
   const pageTitle: string = hits[0].title;
+  const wikiUrl = `https://ru.wikipedia.org/wiki/${encodeURIComponent(pageTitle.replace(/ /g, '_'))}`;
 
-  // 2. Получаем полный текст одним запросом (explaintext = чистый текст без разметки)
   const extractUrl = `https://ru.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(pageTitle)}&prop=extracts&explaintext=true&exsectionformat=wiki&format=json&origin=*`;
   const extractRes = await fetch(extractUrl);
   const extractData = await extractRes.json();
@@ -62,23 +66,19 @@ async function fetchWikiSections(query: string): Promise<WikiSection[] | null> {
   const fullText = page?.extract?.trim();
   if (!fullText || fullText.length < 100) return null;
 
-  // 3. Разбиваем по заголовкам == Раздел ==
   const sectionRegex = /^(={2,3})\s*(.+?)\s*\1$/gm;
   const results: WikiSection[] = [];
   const matches = [...fullText.matchAll(sectionRegex)];
 
   if (matches.length === 0) {
-    // Нет заголовков — отдаём весь текст как «Определение»
-    return [{ icon: '📋', title: pageTitle, content: fullText.slice(0, 1500) }];
+    return { sections: [{ icon: '📋', title: pageTitle, content: fullText.slice(0, 1500) }], url: wikiUrl };
   }
 
-  // Вводная часть (до первого заголовка)
   const introText = fullText.slice(0, matches[0].index ?? 0).trim();
   if (introText.length > 80) {
     results.push({ icon: '📋', title: 'Определение', content: introText.slice(0, 900) });
   }
 
-  // Разделы первого уровня (== ... ==), не больше 6
   const topMatches = matches.filter((m) => m[1] === '==').slice(0, 6);
   for (let i = 0; i < topMatches.length; i++) {
     const m = topMatches[i];
@@ -86,7 +86,7 @@ async function fetchWikiSections(query: string): Promise<WikiSection[] | null> {
     const start = (m.index ?? 0) + m[0].length;
     const end = i + 1 < topMatches.length ? (topMatches[i + 1].index ?? fullText.length) : fullText.length;
     const body = fullText.slice(start, end)
-      .replace(/^(={2,3})\s*.+?\s*\1$/gm, '')  // убираем подзаголовки
+      .replace(/^(={2,3})\s*.+?\s*\1$/gm, '')
       .replace(/\n{3,}/g, '\n\n')
       .trim();
     if (body.length > 80) {
@@ -94,7 +94,7 @@ async function fetchWikiSections(query: string): Promise<WikiSection[] | null> {
     }
   }
 
-  return results.length > 0 ? results : null;
+  return results.length > 0 ? { sections: results, url: wikiUrl } : null;
 }
 
 const defaultSections = (title: string, type: 'disease' | 'syndrome') => [
@@ -123,30 +123,27 @@ export default function DetailPage({ slug, title, type, onBack, onOpenAppointmen
     allItems.find((item) => normalize(item.title).includes(normalize(slug.replace(/-/g, ' ')))) ??
     allItems.find((item) => normalize(item.description).includes(normalize(slug.replace(/-/g, ' '))));
 
-  const staticSections = found?.sections ?? null;
   const displayTitle = found?.title ?? title;
 
   const [sections, setSections] = useState<WikiSection[]>(
-    staticSections ?? defaultSections(displayTitle, type)
+    found?.sections ?? defaultSections(displayTitle, type)
   );
-  const [loading, setLoading] = useState(!staticSections);
-  const [wikiFound, setWikiFound] = useState(false);
+  const [wikiUrl, setWikiUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (staticSections) return;
     setLoading(true);
-    fetchWikiSections(displayTitle)
-      .then((wikiSections) => {
-        if (wikiSections && wikiSections.length > 0) {
-          setSections(wikiSections);
-          setWikiFound(true);
-        } else {
-          setSections(defaultSections(displayTitle, type));
+    setSections(found?.sections ?? defaultSections(displayTitle, type));
+    setWikiUrl(null);
+
+    fetchWikiData(displayTitle)
+      .then((result) => {
+        if (result) {
+          if (!found?.sections) setSections(result.sections);
+          setWikiUrl(result.url);
         }
       })
-      .catch(() => {
-        setSections(defaultSections(displayTitle, type));
-      })
+      .catch(() => {})
       .finally(() => setLoading(false));
   }, [slug]);
 
@@ -169,12 +166,6 @@ export default function DetailPage({ slug, title, type, onBack, onOpenAppointmen
               style={{ backgroundColor: 'rgba(129,178,154,0.15)', color: 'var(--sage)' }}>
               {typeLabel}
             </span>
-            {wikiFound && (
-              <span className="inline-block px-3 py-1 rounded-full text-xs font-golos font-medium"
-                style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: '#3B82F6' }}>
-                Источник: Википедия
-              </span>
-            )}
           </div>
           <h1 className="font-cormorant font-bold text-dark-text mb-4" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
             {displayTitle}
@@ -187,6 +178,17 @@ export default function DetailPage({ slug, title, type, onBack, onOpenAppointmen
               <Icon name="AlertTriangle" size={14} className="text-amber-600" />
               <span className="text-amber-700 text-xs font-golos">Только для ознакомления. Обратитесь к врачу.</span>
             </div>
+            {wikiUrl && (
+              <a
+                href={wikiUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-50 border border-blue-200 hover:bg-blue-100 transition-colors"
+              >
+                <Icon name="ExternalLink" size={14} className="text-blue-600" />
+                <span className="text-blue-700 text-xs font-golos font-medium">Открыть на Википедии</span>
+              </a>
+            )}
           </div>
         </div>
 
@@ -225,13 +227,26 @@ export default function DetailPage({ slug, title, type, onBack, onOpenAppointmen
             <p className="text-white/80 font-golos text-sm mb-6">
               Наши медицинские эксперты готовы ответить на ваши вопросы
             </p>
-            <button
-              onClick={() => onOpenAppointment?.('question')}
-              className="btn-flash px-8 py-3.5 rounded-xl font-golos font-bold text-white shadow-lg"
-              style={{ backgroundColor: 'var(--terracotta)' }}
-            >
-              Связаться с редакцией
-            </button>
+            <div className="flex flex-wrap gap-3 justify-center">
+              <button
+                onClick={() => onOpenAppointment?.('question')}
+                className="btn-flash px-8 py-3.5 rounded-xl font-golos font-bold text-white shadow-lg"
+                style={{ backgroundColor: 'var(--terracotta)' }}
+              >
+                Связаться с редакцией
+              </button>
+              {wikiUrl && (
+                <a
+                  href={wikiUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-8 py-3.5 rounded-xl font-golos font-bold bg-white/20 hover:bg-white/30 text-white transition-colors"
+                >
+                  <Icon name="ExternalLink" size={16} />
+                  Открыть на Википедии
+                </a>
+              )}
+            </div>
           </div>
         )}
       </div>
