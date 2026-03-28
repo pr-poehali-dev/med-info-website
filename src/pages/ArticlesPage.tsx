@@ -123,16 +123,9 @@ export default function ArticlesPage() {
   };
 
   const getPubMedUrl = () => {
-    if (!searchInput.trim()) return '#';
-    const q = searchInput.trim().toLowerCase();
-    const match = articles.find(
-      (a) =>
-        a.title.toLowerCase().includes(q) ||
-        a.excerpt.toLowerCase().includes(q) ||
-        (a.pubmedQuery && a.pubmedQuery.toLowerCase().includes(q))
-    );
-    const term = match?.pubmedQuery || searchInput.trim();
-    return `https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(term)}&sort=relevance`;
+    const q = searchInput.trim();
+    if (!q) return '#';
+    return `https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(q)}`;
   };
 
   const years = ['Все', ...Array.from(new Set(articles.map((a) => getYear(a.date)))).sort((a, b) => Number(b) - Number(a))];
