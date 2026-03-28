@@ -170,8 +170,16 @@ export default function ArticlesPage() {
               onChange={(e) => setSearchInput(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter') handleSearch(); }}
               placeholder="Поиск по статьям..."
-              className="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-gray-200 bg-white font-golos text-sm text-dark-text placeholder:text-light-text focus:outline-none focus:ring-2 focus:ring-sage/30 focus:border-sage shadow-sm transition-all"
+              className="w-full pl-12 pr-10 py-3.5 rounded-2xl border border-gray-200 bg-white font-golos text-sm text-dark-text placeholder:text-light-text focus:outline-none focus:ring-2 focus:ring-sage/30 focus:border-sage shadow-sm transition-all"
             />
+            {searchInput && (
+              <button
+                onClick={() => { setSearchInput(''); setSearchQuery(''); setPage(1); }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full flex items-center justify-center text-light-text hover:text-dark-text hover:bg-gray-100 transition-all"
+              >
+                <Icon name="X" size={14} />
+              </button>
+            )}
           </div>
           <button
             onClick={handleSearch}
