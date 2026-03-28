@@ -110,8 +110,9 @@ export default function DiseaseCarousel({
   };
 
   const handleSearchSubmit = () => {
-    const q = searchQuery.trim().toLowerCase();
-    if (!q) return;
+    const raw = searchQuery.trim();
+    if (!raw) return;
+    const q = raw.toLowerCase();
     const match = items.find((item) =>
       item.title.toLowerCase().includes(q) ||
       item.description.toLowerCase().includes(q) ||
@@ -120,7 +121,7 @@ export default function DiseaseCarousel({
     if (match) {
       onCardClick(match.slug, match.title);
     } else {
-      onCardClick(q.replace(/\s+/g, '-'), searchQuery.trim());
+      onCardClick(raw.replace(/\s+/g, '-'), raw);
     }
   };
 
