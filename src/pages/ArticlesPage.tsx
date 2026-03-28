@@ -19,6 +19,7 @@ interface Article {
   readTime: string;
   icon: string;
   url?: string;
+  keyPoints?: string[];
 }
 
 function ArticleModal({ article, onClose }: { article: Article; onClose: () => void }) {
@@ -61,19 +62,20 @@ function ArticleModal({ article, onClose }: { article: Article; onClose: () => v
 
           <div className="prose font-golos text-dark-text space-y-4">
             <p className="text-base leading-relaxed text-light-text">{article.excerpt}</p>
-            <div className="p-4 rounded-2xl border-l-4 my-4"
-              style={{ backgroundColor: 'rgba(129,178,154,0.07)', borderColor: 'var(--sage)' }}>
-              <p className="text-sm font-golos text-dark-text font-medium">Ключевые выводы:</p>
-              <ul className="mt-2 space-y-1 text-sm text-light-text list-disc list-inside">
-                <li>Доказательная база подтверждает эффективность современных подходов</li>
-                <li>Рекомендации обновлены согласно данным 2024 года</li>
-                <li>Важно индивидуализировать терапию для каждого пациента</li>
-              </ul>
-            </div>
+            {article.keyPoints && article.keyPoints.length > 0 && (
+              <div className="p-4 rounded-2xl border-l-4 my-4"
+                style={{ backgroundColor: 'rgba(129,178,154,0.07)', borderColor: 'var(--sage)' }}>
+                <p className="text-sm font-golos text-dark-text font-medium">Ключевые выводы:</p>
+                <ul className="mt-2 space-y-1.5 text-sm text-light-text list-disc list-inside">
+                  {article.keyPoints.map((point, i) => (
+                    <li key={i}>{point}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
             <p className="text-sm text-light-text leading-relaxed">
-              Современная медицинская наука непрерывно развивается. Данная статья представляет обзор актуальных
-              исследований в области {article.category.toLowerCase()} и может использоваться как отправная точка
-              для дальнейшего изучения темы. Проконсультируйтесь с врачом перед принятием медицинских решений.
+              Данная статья представляет обзор актуальных исследований в области {article.category.toLowerCase()}.
+              Проконсультируйтесь с врачом перед принятием медицинских решений.
             </p>
           </div>
 
