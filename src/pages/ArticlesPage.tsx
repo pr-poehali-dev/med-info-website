@@ -5,6 +5,11 @@ import { articles } from '@/data/medicalData';
 const categories = ['Все', 'Кардиология', 'Эндокринология', 'Неврология', 'Пульмонология', 'Гастроэнтерология', 'Иммунология'];
 const PAGE_SIZE = 6;
 
+function getYear(date: string): string {
+  const match = date.match(/\d{4}/);
+  return match ? match[0] : '';
+}
+
 interface Article {
   id: string;
   category: string;
@@ -98,15 +103,19 @@ function ArticleModal({ article, onClose }: { article: Article; onClose: () => v
 
 export default function ArticlesPage() {
   const [activeCategory, setActiveCategory] = useState('Все');
+  const [activeYear, setActiveYear] = useState('Все');
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
 
+  const years = ['Все', ...Array.from(new Set(articles.map((a) => getYear(a.date)))).sort((a, b) => Number(b) - Number(a))];
+
   const filtered = articles.filter((a) => {
     const matchCat = activeCategory === 'Все' || a.category === activeCategory;
+    const matchYear = activeYear === 'Все' || getYear(a.date) === activeYear;
     const matchSearch = a.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       a.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchCat && matchSearch;
+    return matchCat && matchYear && matchSearch;
   });
 
   const shown = filtered.slice(0, page * PAGE_SIZE);
@@ -114,6 +123,11 @@ export default function ArticlesPage() {
 
   const handleCategoryChange = (cat: string) => {
     setActiveCategory(cat);
+    setPage(1);
+  };
+
+  const handleYearChange = (year: string) => {
+    setActiveYear(year);
     setPage(1);
   };
 
@@ -146,7 +160,7 @@ export default function ArticlesPage() {
         </div>
 
         {/* Categories */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
+        <div className="flex flex-wrap justify-center gap-2 mb-4">
           {categories.map((cat) => (
             <button
               key={cat}
@@ -159,6 +173,28 @@ export default function ArticlesPage() {
               style={activeCategory === cat ? { backgroundColor: 'var(--sage)' } : {}}
             >
               {cat}
+            </button>
+          ))}
+        </div>
+
+        {/* Year filter */}
+        <div className="flex flex-wrap justify-center items-center gap-2 mb-10">
+          <span className="text-xs font-golos text-light-text mr-1 flex items-center gap-1">
+            <Icon name="CalendarDays" size={13} />
+            Год:
+          </span>
+          {years.map((year) => (
+            <button
+              key={year}
+              onClick={() => handleYearChange(year)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-golos font-medium transition-all duration-200 ${
+                activeYear === year
+                  ? 'text-white shadow-sm'
+                  : 'bg-white text-light-text border border-gray-200 hover:border-blue-300'
+              }`}
+              style={activeYear === year ? { backgroundColor: '#3B7DD8' } : {}}
+            >
+              {year}
             </button>
           ))}
         </div>
