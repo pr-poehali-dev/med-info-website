@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Icon from '@/components/ui/icon';
+import BowlWithSnake from '@/components/ui/bowl-with-snake';
 
 interface HeaderProps {
   currentPage: string;
@@ -36,7 +37,7 @@ export default function Header({ currentPage, onNavigate, onOpenAppointment }: H
             className="flex items-center gap-3 group"
           >
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sage to-mint flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
-              <Icon name="Heart" size={20} className="text-white" />
+              <BowlWithSnake size={22} className="text-white" />
             </div>
             <div className="text-left">
               <div className="font-cormorant font-bold text-xl text-dark-text leading-none">МедИнфо</div>
