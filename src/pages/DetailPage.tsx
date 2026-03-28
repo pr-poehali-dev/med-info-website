@@ -43,73 +43,54 @@ function getIcon(heading: string): string {
 }
 
 async function fetchWikiSections(query: string): Promise<WikiSection[] | null> {
+  // 1. Ищем страницу
   const searchUrl = `https://ru.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&origin=*&srlimit=1`;
   const searchRes = await fetch(searchUrl);
   const searchData = await searchRes.json();
-  const pages = searchData?.query?.search;
-  if (!pages || pages.length === 0) return null;
+  const hits = searchData?.query?.search;
+  if (!hits || hits.length === 0) return null;
 
-  const pageTitle = pages[0].title;
+  const pageTitle: string = hits[0].title;
 
-  const sectionsUrl = `https://ru.wikipedia.org/w/api.php?action=parse&page=${encodeURIComponent(pageTitle)}&prop=sections|text&format=json&origin=*`;
-  const sectionsRes = await fetch(sectionsUrl);
-  const sectionsData = await sectionsRes.json();
-  const parsedSections = sectionsData?.parse?.sections;
+  // 2. Получаем полный текст одним запросом (explaintext = чистый текст без разметки)
+  const extractUrl = `https://ru.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(pageTitle)}&prop=extracts&explaintext=true&exsectionformat=wiki&format=json&origin=*`;
+  const extractRes = await fetch(extractUrl);
+  const extractData = await extractRes.json();
+  const pagesObj = extractData?.query?.pages;
+  if (!pagesObj) return null;
+  const page = Object.values(pagesObj)[0] as { extract?: string };
+  const fullText = page?.extract?.trim();
+  if (!fullText || fullText.length < 100) return null;
 
-  if (!parsedSections || parsedSections.length === 0) {
-    const textUrl = `https://ru.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(pageTitle)}&prop=extracts&exintro=true&explaintext=true&format=json&origin=*`;
-    const textRes = await fetch(textUrl);
-    const textData = await textRes.json();
-    const pagesObj = textData?.query?.pages;
-    const page = pagesObj ? Object.values(pagesObj)[0] as { extract?: string } : null;
-    const extract = page?.extract?.trim();
-    if (!extract) return null;
-    return [{ icon: '📋', title: 'Определение', content: extract.slice(0, 1200) }];
-  }
-
-  const relevantSections = parsedSections
-    .filter((s: { toclevel: number; line: string }) => s.toclevel === 1)
-    .slice(0, 6);
-
-  if (relevantSections.length === 0) return null;
-
+  // 3. Разбиваем по заголовкам == Раздел ==
+  const sectionRegex = /^(={2,3})\s*(.+?)\s*\1$/gm;
   const results: WikiSection[] = [];
+  const matches = [...fullText.matchAll(sectionRegex)];
 
-  const introUrl = `https://ru.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(pageTitle)}&prop=extracts&exintro=true&explaintext=true&format=json&origin=*`;
-  const introRes = await fetch(introUrl);
-  const introData = await introRes.json();
-  const pagesObj = introData?.query?.pages;
-  const introPage = pagesObj ? Object.values(pagesObj)[0] as { extract?: string } : null;
-  const intro = introPage?.extract?.trim();
-  if (intro) {
-    results.push({ icon: '📋', title: 'Определение', content: intro.slice(0, 800) });
+  if (matches.length === 0) {
+    // Нет заголовков — отдаём весь текст как «Определение»
+    return [{ icon: '📋', title: pageTitle, content: fullText.slice(0, 1500) }];
   }
 
-  for (const section of relevantSections) {
-    const secUrl = `https://ru.wikipedia.org/w/api.php?action=parse&page=${encodeURIComponent(pageTitle)}&section=${section.index}&prop=wikitext&format=json&origin=*`;
-    const secRes = await fetch(secUrl);
-    const secData = await secRes.json();
-    let wikitext: string = secData?.parse?.wikitext?.['*'] ?? '';
+  // Вводная часть (до первого заголовка)
+  const introText = fullText.slice(0, matches[0].index ?? 0).trim();
+  if (introText.length > 80) {
+    results.push({ icon: '📋', title: 'Определение', content: introText.slice(0, 900) });
+  }
 
-    wikitext = wikitext
-      .replace(/\[\[([^\]|]+\|)?([^\]]+)\]\]/g, '$2')
-      .replace(/{{[^}]+}}/g, '')
-      .replace(/'''([^']+)'''/g, '$1')
-      .replace(/''([^']+)''/g, '$1')
-      .replace(/==+[^=]+=+/g, '')
-      .replace(/\[\[Файл:[^\]]+\]\]/g, '')
-      .replace(/\[\[File:[^\]]+\]\]/g, '')
-      .replace(/\[\[Изображение:[^\]]+\]\]/g, '')
-      .replace(/<[^>]+>/g, '')
+  // Разделы первого уровня (== ... ==), не больше 6
+  const topMatches = matches.filter((m) => m[1] === '==').slice(0, 6);
+  for (let i = 0; i < topMatches.length; i++) {
+    const m = topMatches[i];
+    const heading = m[2];
+    const start = (m.index ?? 0) + m[0].length;
+    const end = i + 1 < topMatches.length ? (topMatches[i + 1].index ?? fullText.length) : fullText.length;
+    const body = fullText.slice(start, end)
+      .replace(/^(={2,3})\s*.+?\s*\1$/gm, '')  // убираем подзаголовки
       .replace(/\n{3,}/g, '\n\n')
       .trim();
-
-    if (wikitext.length > 100) {
-      results.push({
-        icon: getIcon(section.line),
-        title: section.line,
-        content: wikitext.slice(0, 800),
-      });
+    if (body.length > 80) {
+      results.push({ icon: getIcon(heading), title: heading, content: body.slice(0, 900) });
     }
   }
 
