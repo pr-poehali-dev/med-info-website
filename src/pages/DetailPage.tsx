@@ -5,9 +5,10 @@ interface DetailPageProps {
   title: string;
   type: 'disease' | 'syndrome';
   onBack: () => void;
+  onOpenAppointment?: (type?: 'consultation' | 'question') => void;
 }
 
-export default function DetailPage({ slug: _slug, title, type, onBack }: DetailPageProps) {
+export default function DetailPage({ slug: _slug, title, type, onBack, onOpenAppointment }: DetailPageProps) {
   const typeLabel = type === 'disease' ? 'Заболевание' : 'Синдром';
   const sections = [
     { icon: '📋', title: 'Определение', content: `${title} — ${type === 'disease' ? 'заболевание' : 'синдром'}, характеризующееся специфическими клиническими проявлениями, требующее своевременной диагностики и комплексного лечения под наблюдением специалиста.` },
@@ -76,7 +77,7 @@ export default function DetailPage({ slug: _slug, title, type, onBack }: DetailP
             Наши медицинские эксперты готовы ответить на ваши вопросы
           </p>
           <button
-            onClick={onBack}
+            onClick={() => onOpenAppointment?.('question')}
             className="btn-flash px-8 py-3.5 rounded-xl font-golos font-bold text-white shadow-lg"
             style={{ backgroundColor: 'var(--terracotta)' }}
           >

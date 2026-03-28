@@ -76,6 +76,7 @@ export default function App() {
             title={detail.title}
             type={detail.type}
             onBack={handleBack}
+            onOpenAppointment={openAppointment}
           />
         ) : <HomePage onNavigate={navigate} />;
       default:
