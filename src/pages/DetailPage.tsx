@@ -227,26 +227,13 @@ export default function DetailPage({ slug, title, type, onBack, onOpenAppointmen
             <p className="text-white/80 font-golos text-sm mb-6">
               Наши медицинские эксперты готовы ответить на ваши вопросы
             </p>
-            <div className="flex flex-wrap gap-3 justify-center">
-              <button
-                onClick={() => onOpenAppointment?.('question')}
-                className="btn-flash px-8 py-3.5 rounded-xl font-golos font-bold text-white shadow-lg"
-                style={{ backgroundColor: 'var(--terracotta)' }}
-              >
-                Связаться с редакцией
-              </button>
-              {wikiUrl && (
-                <a
-                  href={wikiUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-8 py-3.5 rounded-xl font-golos font-bold bg-teal-500 hover:bg-teal-400 text-white transition-colors"
-                >
-                  <Icon name="ExternalLink" size={16} />
-                  Подробнее на Википедии
-                </a>
-              )}
-            </div>
+            <button
+              onClick={() => onOpenAppointment?.('question')}
+              className="btn-flash px-8 py-3.5 rounded-xl font-golos font-bold text-white shadow-lg"
+              style={{ backgroundColor: 'var(--terracotta)' }}
+            >
+              Связаться с редакцией
+            </button>
           </div>
         )}
       </div>
