@@ -183,10 +183,10 @@ export default function DetailPage({ slug, title, type, onBack, onOpenAppointmen
                 href={wikiUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-50 border border-blue-200 hover:bg-blue-100 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-teal-50 border border-teal-200 hover:bg-teal-100 transition-colors"
               >
-                <Icon name="ExternalLink" size={14} className="text-blue-600" />
-                <span className="text-blue-700 text-xs font-golos font-medium">Открыть на Википедии</span>
+                <Icon name="ExternalLink" size={14} className="text-teal-600" />
+                <span className="text-teal-700 text-xs font-golos font-medium">Подробнее на Википедии</span>
               </a>
             )}
           </div>
@@ -240,10 +240,10 @@ export default function DetailPage({ slug, title, type, onBack, onOpenAppointmen
                   href={wikiUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-8 py-3.5 rounded-xl font-golos font-bold bg-white/20 hover:bg-white/30 text-white transition-colors"
+                  className="flex items-center gap-2 px-8 py-3.5 rounded-xl font-golos font-bold bg-teal-500 hover:bg-teal-400 text-white transition-colors"
                 >
                   <Icon name="ExternalLink" size={16} />
-                  Открыть на Википедии
+                  Подробнее на Википедии
                 </a>
               )}
             </div>
