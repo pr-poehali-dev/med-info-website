@@ -19,12 +19,13 @@ interface Article {
   readTime: string;
   icon: string;
   url?: string;
+  pubmedQuery?: string;
   keyPoints?: string[];
 }
 
 function buildPubMedUrl(article: Article): string {
-  const terms = [article.title, article.category].join(' ');
-  return `https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(terms)}&sort=relevance`;
+  const query = article.pubmedQuery || article.title;
+  return `https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(query)}&sort=relevance`;
 }
 
 function ArticleModal({ article, onClose }: { article: Article; onClose: () => void }) {

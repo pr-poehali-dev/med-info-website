@@ -342,6 +342,7 @@ export const articles = [
     date: '20 марта 2025',
     readTime: '8 мин',
     icon: '🫀',
+    pubmedQuery: 'arterial hypertension treatment ESC guidelines 2024',
     url: 'https://pubmed.ncbi.nlm.nih.gov/37952636/',
     keyPoints: [
       'Целевое АД < 130/80 мм рт.ст. рекомендовано для большинства пациентов моложе 65 лет',
@@ -357,6 +358,7 @@ export const articles = [
     date: '5 марта 2025',
     readTime: '10 мин',
     icon: '🫀',
+    pubmedQuery: 'heart failure preserved ejection fraction HFpEF empagliflozin SGLT2',
     url: 'https://pubmed.ncbi.nlm.nih.gov/34449189/',
     keyPoints: [
       'Эмпаглифлозин снизил риск госпитализаций по поводу ХСН на 29% у пациентов с HFpEF',
@@ -372,6 +374,7 @@ export const articles = [
     date: '18 февраля 2025',
     readTime: '11 мин',
     icon: '🫀',
+    pubmedQuery: 'atrial fibrillation thromboembolism anticoagulation DOAC',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36334664/',
     keyPoints: [
       'ПОАК превосходят варфарин по профилю безопасности: риск внутричерепных кровотечений ниже на 50%',
@@ -387,6 +390,7 @@ export const articles = [
     date: '3 февраля 2025',
     readTime: '12 мин',
     icon: '🫀',
+    pubmedQuery: 'acute coronary syndrome NSTEMI invasive strategy percutaneous coronary intervention',
     url: 'https://pubmed.ncbi.nlm.nih.gov/37133420/',
     keyPoints: [
       'Ранняя инвазивная стратегия (< 24 ч) при ОКСбпST снижает риск рецидива ишемии',
@@ -402,6 +406,7 @@ export const articles = [
     date: '20 января 2025',
     readTime: '9 мин',
     icon: '🫀',
+    pubmedQuery: 'statin therapy long-term safety myopathy side effects',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36356284/',
     keyPoints: [
       'Истинная миопатия при приёме статинов встречается менее чем у 0,1% пациентов',
@@ -417,6 +422,7 @@ export const articles = [
     date: '8 декабря 2025',
     readTime: '13 мин',
     icon: '🫀',
+    pubmedQuery: 'myocardial revascularization CABG vs PCI multivessel coronary artery disease SYNTAX',
     url: 'https://pubmed.ncbi.nlm.nih.gov/35077209/',
     keyPoints: [
       'АКШ обеспечивает лучшую выживаемость при трёхсосудистом поражении и поражении ствола ЛКА',
@@ -432,6 +438,7 @@ export const articles = [
     date: '22 ноября 2025',
     readTime: '14 мин',
     icon: '🫀',
+    pubmedQuery: 'cardiotoxicity cancer therapy anthracycline checkpoint inhibitors cardio-oncology monitoring',
     url: 'https://pubmed.ncbi.nlm.nih.gov/35085407/',
     keyPoints: [
       'ЭхоКГ до, во время и после антрациклиновой терапии — обязательный стандарт наблюдения',
@@ -447,6 +454,7 @@ export const articles = [
     date: '5 ноября 2025',
     readTime: '10 мин',
     icon: '🫀',
+    pubmedQuery: 'sudden cardiac death risk stratification ICD implantation prevention',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36966318/',
     keyPoints: [
       'ФВ ЛЖ ≤ 35% при оптимальной медикаментозной терапии — главный критерий имплантации ИКД',
@@ -462,6 +470,7 @@ export const articles = [
     date: '18 октября 2025',
     readTime: '11 мин',
     icon: '🫀',
+    pubmedQuery: 'valvular heart disease TAVI transcatheter aortic valve replacement vs surgery PARTNER',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36534476/',
     keyPoints: [
       'TAVI сопоставима с хирургической AVR по 10-летней выживаемости у пациентов высокого риска',
@@ -479,6 +488,7 @@ export const articles = [
     date: '15 марта 2025',
     readTime: '12 мин',
     icon: '🩸',
+    pubmedQuery: 'insulin therapy type 2 diabetes initiation basal insulin dosing',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36696395/',
     keyPoints: [
       'Базальный инсулин назначается при HbA1c > 9% или при неэффективности двух пероральных препаратов',
@@ -494,6 +504,7 @@ export const articles = [
     date: '28 февраля 2025',
     readTime: '13 мин',
     icon: '🩸',
+    pubmedQuery: 'GLP-1 agonists cardiovascular renal protection semaglutide liraglutide type 2 diabetes',
     url: 'https://pubmed.ncbi.nlm.nih.gov/37586370/',
     keyPoints: [
       'Семаглутид снижает риск MACE на 26% у пациентов с СД2 и установленными ССЗ (SUSTAIN-6)',
@@ -509,6 +520,7 @@ export const articles = [
     date: '10 февраля 2025',
     readTime: '9 мин',
     icon: '🩸',
+    pubmedQuery: 'hypothyroidism levothyroxine replacement therapy dosing TSH target',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36288597/',
     keyPoints: [
       'Целевой уровень ТТГ: 0,5–2,5 мМЕ/л для большинства пациентов; у пожилых допустимо до 4–6 мМЕ/л',
@@ -524,6 +536,7 @@ export const articles = [
     date: '25 января 2025',
     readTime: '10 мин',
     icon: '🩸',
+    pubmedQuery: 'polycystic ovary syndrome PCOS treatment metformin inositol hormonal therapy',
     url: 'https://pubmed.ncbi.nlm.nih.gov/37385022/',
     keyPoints: [
       'Метформин улучшает инсулинорезистентность и восстанавливает менструальный цикл при СПКЯ',
@@ -539,6 +552,7 @@ export const articles = [
     date: '12 января 2025',
     readTime: '11 мин',
     icon: '🩸',
+    pubmedQuery: 'osteoporosis diagnosis fracture prevention bisphosphonate antiresorptive therapy',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36459264/',
     keyPoints: [
       'T-критерий ≤ −2,5 по денситометрии или наличие хрупкого перелома — показание к терапии',
@@ -554,6 +568,7 @@ export const articles = [
     date: '14 ноября 2025',
     readTime: '14 мин',
     icon: '🩸',
+    pubmedQuery: 'type 1 diabetes closed-loop insulin delivery artificial pancreas hybrid system',
     url: 'https://pubmed.ncbi.nlm.nih.gov/37327248/',
     keyPoints: [
       'Гибридные системы closed-loop увеличивают время в целевом диапазоне гликемии до 70–80%',
@@ -569,6 +584,7 @@ export const articles = [
     date: '28 октября 2025',
     readTime: '10 мин',
     icon: '🩸',
+    pubmedQuery: 'acromegaly medical treatment pasireotide pegvisomant somatostatin resistance',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36044260/',
     keyPoints: [
       'Пасиреотид нормализует ИФР-1 у 20–35% пациентов с резистентностью к октреотиду',
@@ -584,6 +600,7 @@ export const articles = [
     date: '9 октября 2025',
     readTime: '12 мин',
     icon: '🩸',
+    pubmedQuery: 'metabolic associated fatty liver disease MAFLD NAFLD type 2 diabetes insulin resistance',
     url: 'https://pubmed.ncbi.nlm.nih.gov/37268393/',
     keyPoints: [
       'МАЖБП выявляется у 50–70% пациентов с СД2; её наличие увеличивает риск цирроза и ГЦК',
@@ -601,6 +618,7 @@ export const articles = [
     date: '18 марта 2025',
     readTime: '10 мин',
     icon: '🧠',
+    pubmedQuery: 'thrombolysis ischemic stroke extended time window alteplase tenecteplase',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36346098/',
     keyPoints: [
       'Альтеплаза эффективна в течение 4,5 часов от начала симптомов при отсутствии противопоказаний',
@@ -616,6 +634,7 @@ export const articles = [
     date: '4 марта 2025',
     readTime: '11 мин',
     icon: '🧠',
+    pubmedQuery: 'mechanical thrombectomy stroke large vessel occlusion endovascular treatment DAWN DEFUSE',
     url: 'https://pubmed.ncbi.nlm.nih.gov/37673506/',
     keyPoints: [
       'Тромбэктомия эффективна до 24 часов при окклюзии крупных сосудов и подходящем профиле пенумбры',
@@ -631,6 +650,7 @@ export const articles = [
     date: '15 февраля 2025',
     readTime: '15 мин',
     icon: '🧠',
+    pubmedQuery: 'Alzheimer disease lecanemab donanemab anti-amyloid antibody disease-modifying therapy',
     url: 'https://pubmed.ncbi.nlm.nih.gov/37454541/',
     keyPoints: [
       'Леканемаб замедляет когнитивный спад на 27% у пациентов с ранней стадией БА (CLARITY AD)',
@@ -646,6 +666,7 @@ export const articles = [
     date: '1 февраля 2025',
     readTime: '13 мин',
     icon: '🧠',
+    pubmedQuery: 'multiple sclerosis high efficacy immunosuppressive therapy natalizumab ocrelizumab alemtuzumab',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36888199/',
     keyPoints: [
       'Окрелизумаб снижает частоту обострений на 46–47% и замедляет прогрессирование инвалидизации',
@@ -661,6 +682,7 @@ export const articles = [
     date: '18 января 2025',
     readTime: '9 мин',
     icon: '🧠',
+    pubmedQuery: 'migraine CGRP antagonist erenumab fremanezumab galcanezumab preventive treatment',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36219897/',
     keyPoints: [
       'Анти-CGRP моноклональные антитела снижают число дней с мигренью в месяц на 50% и более',
@@ -676,6 +698,7 @@ export const articles = [
     date: '20 ноября 2025',
     readTime: '12 мин',
     icon: '🧠',
+    pubmedQuery: 'Parkinson disease deep brain stimulation DBS subthalamic nucleus neuromodulation',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36599357/',
     keyPoints: [
       'DBS субталамического ядра снижает двигательные флуктуации и позволяет уменьшить дозу леводопы на 50%',
@@ -691,6 +714,7 @@ export const articles = [
     date: '6 октября 2025',
     readTime: '11 мин',
     icon: '🧠',
+    pubmedQuery: 'epilepsy third generation antiepileptic drugs brivaracetam perampanel drug-resistant',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36459811/',
     keyPoints: [
       'Бриварацетам снижает частоту приступов на ≥ 50% у 40% пациентов с фармакорезистентной эпилепсией',
@@ -706,6 +730,7 @@ export const articles = [
     date: '17 сентября 2025',
     readTime: '10 мин',
     icon: '🧠',
+    pubmedQuery: 'dementia non-pharmacological cognitive rehabilitation exercise music therapy',
     url: 'https://pubmed.ncbi.nlm.nih.gov/37125808/',
     keyPoints: [
       'Аэробные упражнения 150 мин/нед достоверно замедляют прогрессирование когнитивного снижения',
@@ -723,6 +748,7 @@ export const articles = [
     date: '22 марта 2025',
     readTime: '15 мин',
     icon: '🫁',
+    pubmedQuery: 'COPD cardiovascular disease comorbidity treatment beta-blocker',
     url: 'https://pubmed.ncbi.nlm.nih.gov/37011573/',
     keyPoints: [
       'ССЗ встречаются у 60–70% пациентов с ХОБЛ и являются основной причиной смерти при этом заболевании',
@@ -738,6 +764,7 @@ export const articles = [
     date: '8 марта 2025',
     readTime: '12 мин',
     icon: '🫁',
+    pubmedQuery: 'severe asthma biological therapy mepolizumab benralizumab dupilumab eosinophilic',
     url: 'https://pubmed.ncbi.nlm.nih.gov/37328948/',
     keyPoints: [
       'Меполизумаб и бенрализумаб снижают число обострений на 50–60% при эозинофилах крови ≥ 300 кл/мкл',
@@ -753,6 +780,7 @@ export const articles = [
     date: '20 февраля 2025',
     readTime: '13 мин',
     icon: '🫁',
+    pubmedQuery: 'idiopathic pulmonary fibrosis nintedanib pirfenidone antifibrotic therapy',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36099372/',
     keyPoints: [
       'Нинтеданиб снижает скорость снижения ФЖЁЛ на 50% и замедляет прогрессирование ИЛФ',
@@ -768,6 +796,7 @@ export const articles = [
     date: '5 февраля 2025',
     readTime: '11 мин',
     icon: '🫁',
+    pubmedQuery: 'pulmonary arterial hypertension combination targeted therapy ambrisentan tadalafil',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36017558/',
     keyPoints: [
       'Начальная двойная комбинация амбризентан + тадалафил снижает риск клинического ухудшения на 50%',
@@ -783,6 +812,7 @@ export const articles = [
     date: '22 января 2025',
     readTime: '10 мин',
     icon: '🫁',
+    pubmedQuery: 'obstructive sleep apnea diagnosis CPAP therapy AHI cardiovascular',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36356082/',
     keyPoints: [
       'ИАГ ≥ 15/ч или ≥ 5/ч при наличии симптомов (гиперсомния, апноэ) — критерий диагноза СОАС',
@@ -798,6 +828,7 @@ export const articles = [
     date: '16 октября 2025',
     readTime: '12 мин',
     icon: '🫁',
+    pubmedQuery: 'long COVID post-COVID pulmonary complications rehabilitation dyspnea',
     url: 'https://pubmed.ncbi.nlm.nih.gov/37643569/',
     keyPoints: [
       'КТ-изменения в лёгких сохраняются у 30–40% пациентов через 12 месяцев после тяжёлого COVID-19',
@@ -813,6 +844,7 @@ export const articles = [
     date: '3 сентября 2025',
     readTime: '9 мин',
     icon: '🫁',
+    pubmedQuery: 'community-acquired pneumonia prevention pneumococcal influenza vaccination adults',
     url: 'https://pubmed.ncbi.nlm.nih.gov/37178274/',
     keyPoints: [
       'PCV20 (20-валентная конъюгированная) покрывает серотипы, ответственные за 75% инвазивных пневмококковых инфекций',
@@ -828,6 +860,7 @@ export const articles = [
     date: '20 августа 2025',
     readTime: '14 мин',
     icon: '🫁',
+    pubmedQuery: 'multidrug-resistant tuberculosis MDR-TB bedaquiline pretomanid short course regimen',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36946101/',
     keyPoints: [
       'Режим BPaL (бедаквилин + претоманид + линезолид) обеспечивает успех лечения МЛУ-ТБ в 90% случаев',
@@ -845,6 +878,7 @@ export const articles = [
     date: '25 марта 2025',
     readTime: '9 мин',
     icon: '🧬',
+    pubmedQuery: 'gut microbiome irritable bowel syndrome IBS rifaximin probiotics',
     url: 'https://pubmed.ncbi.nlm.nih.gov/37224643/',
     keyPoints: [
       'Снижение разнообразия микробиома и дефицит Faecalibacterium prausnitzii характерны для СРК',
@@ -860,6 +894,7 @@ export const articles = [
     date: '11 марта 2025',
     readTime: '13 мин',
     icon: '🧬',
+    pubmedQuery: 'inflammatory bowel disease Crohn ulcerative colitis vedolizumab ustekinumab JAK inhibitor',
     url: 'https://pubmed.ncbi.nlm.nih.gov/37230972/',
     keyPoints: [
       'Ведолизумаб демонстрирует высокий профиль кишечной селективности с благоприятной безопасностью',
@@ -875,6 +910,7 @@ export const articles = [
     date: '12 ноября 2025',
     readTime: '10 мин',
     icon: '🧬',
+    pubmedQuery: 'Helicobacter pylori eradication updated protocols clarithromycin resistance bismuth quadruple',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36368419/',
     keyPoints: [
       'Резистентность H. pylori к кларитромицину > 15% в регионе — показание к отказу от тройной схемы',
@@ -890,6 +926,7 @@ export const articles = [
     date: '27 октября 2025',
     readTime: '11 мин',
     icon: '🧬',
+    pubmedQuery: 'hepatocellular carcinoma screening early diagnosis ultrasound AFP cirrhosis',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36799389/',
     keyPoints: [
       'УЗИ печени каждые 6 месяцев — стандарт скрининга ГЦК у пациентов с циррозом',
@@ -905,6 +942,7 @@ export const articles = [
     date: '9 октября 2025',
     readTime: '12 мин',
     icon: '🧬',
+    pubmedQuery: 'nonalcoholic steatohepatitis NASH resmetirom lanifibranor phase 3 clinical trial',
     url: 'https://pubmed.ncbi.nlm.nih.gov/37069590/',
     keyPoints: [
       'Ресметиром (агонист тиреоидного рецептора β) получил одобрение FDA в 2024 году при НАСГ с фиброзом F2–F3',
@@ -920,6 +958,7 @@ export const articles = [
     date: '22 сентября 2025',
     readTime: '10 мин',
     icon: '🧬',
+    pubmedQuery: 'colorectal cancer screening colonoscopy FIT fecal occult blood updated guidelines',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36603968/',
     keyPoints: [
       'Скрининговая колоноскопия каждые 10 лет снижает смертность от КРР на 40–50%',
@@ -935,6 +974,7 @@ export const articles = [
     date: '5 сентября 2025',
     readTime: '11 мин',
     icon: '🧬',
+    pubmedQuery: 'acute pancreatitis conservative management enteral nutrition necrosectomy step-up approach',
     url: 'https://pubmed.ncbi.nlm.nih.gov/37011474/',
     keyPoints: [
       'Раннее энтеральное питание (в течение 24–72 ч) снижает частоту инфекционных осложнений ОП',
@@ -950,6 +990,7 @@ export const articles = [
     date: '18 августа 2025',
     readTime: '9 мин',
     icon: '🧬',
+    pubmedQuery: 'fecal microbiota transplantation FMT C. difficile recurrent infection efficacy',
     url: 'https://pubmed.ncbi.nlm.nih.gov/37225649/',
     keyPoints: [
       'ТФМ устраняет рекуррентную инфекцию C. difficile в 80–90% случаев после первой процедуры',
@@ -967,6 +1008,7 @@ export const articles = [
     date: '25 ноября 2025',
     readTime: '14 мин',
     icon: '🔬',
+    pubmedQuery: 'autoimmune diseases biological therapy TNF IL-6 IL-17 diagnosis treatment',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36974892/',
     keyPoints: [
       'Ранняя диагностика аутоиммунных заболеваний на доклинической стадии улучшает долгосрочный прогноз',
@@ -982,6 +1024,7 @@ export const articles = [
     date: '10 ноября 2025',
     readTime: '12 мин',
     icon: '🔬',
+    pubmedQuery: 'rheumatoid arthritis JAK inhibitors tofacitinib baricitinib vs biologic DMARDs',
     url: 'https://pubmed.ncbi.nlm.nih.gov/37268029/',
     keyPoints: [
       'JAK-ингибиторы сопоставимы с биологическими БПВП по эффективности, но требуют скрининга на тромбоз и MACE',
@@ -997,6 +1040,7 @@ export const articles = [
     date: '23 октября 2025',
     readTime: '13 мин',
     icon: '🔬',
+    pubmedQuery: 'systemic lupus erythematosus belimumab anifrolumab targeted therapy organ protection',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36724948/',
     keyPoints: [
       'Белимумаб снижает частоту обострений СКВ на 43% и позволяет уменьшить дозу стероидов',
@@ -1012,6 +1056,7 @@ export const articles = [
     date: '7 октября 2025',
     readTime: '15 мин',
     icon: '🔬',
+    pubmedQuery: 'primary immunodeficiency gene therapy SCID ADA Bruton agammaglobulinemia BTK inhibitor',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36415777/',
     keyPoints: [
       'Генная терапия АДА-СКИД (аденозиндезаминазный дефицит) восстанавливает иммунную функцию в > 90% случаев',
@@ -1027,6 +1072,7 @@ export const articles = [
     date: '19 сентября 2025',
     readTime: '10 мин',
     icon: '🔬',
+    pubmedQuery: 'allergic rhinitis atopic dermatitis dupilumab biological therapy tezepelumab lebrikizumab',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36799155/',
     keyPoints: [
       'Дупилумаб (анти-ИЛ-4Rα) одобрен при атопическом дерматите, астме, риносинусите с полипами',
@@ -1042,6 +1088,7 @@ export const articles = [
     date: '4 сентября 2025',
     readTime: '14 мин',
     icon: '🔬',
+    pubmedQuery: 'cancer immunotherapy checkpoint inhibitors anti-PD-1 pembrolizumab nivolumab ipilimumab',
     url: 'https://pubmed.ncbi.nlm.nih.gov/37173569/',
     keyPoints: [
       'Пембролизумаб при высокой экспрессии PD-L1 (TPS ≥ 50%) улучшает ОВ при НМРЛ на 30–40%',
@@ -1057,6 +1104,7 @@ export const articles = [
     date: '21 августа 2025',
     readTime: '11 мин',
     icon: '🔬',
+    pubmedQuery: 'psoriasis IL-17 IL-23 inhibitors secukinumab ixekizumab guselkumab clinical practice',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36977476/',
     keyPoints: [
       'Анти-ИЛ-17 (секукинумаб, иксекизумаб) обеспечивают PASI 90 у 70–80% пациентов с псориазом',
@@ -1072,6 +1120,7 @@ export const articles = [
     date: '5 августа 2025',
     readTime: '12 мин',
     icon: '🔬',
+    pubmedQuery: 'ANCA vasculitis Wegener granulomatosis rituximab cyclophosphamide remission induction',
     url: 'https://pubmed.ncbi.nlm.nih.gov/36347989/',
     keyPoints: [
       'Ритуксимаб не уступает циклофосфамиду при индукции ремиссии и превосходит его при рецидивирующем АНЦА-васкулите',
@@ -1087,6 +1136,7 @@ export const articles = [
     date: '18 июля 2025',
     readTime: '13 мин',
     icon: '🔬',
+    pubmedQuery: 'sepsis immune paralysis immunosuppression PD-1 IL-7 GM-CSF therapeutic targets',
     url: 'https://pubmed.ncbi.nlm.nih.gov/37082959/',
     keyPoints: [
       'Иммунный паралич при сепсисе характеризуется апоптозом лимфоцитов и гиперэкспрессией PD-1/PD-L1',
