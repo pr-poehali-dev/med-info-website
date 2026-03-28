@@ -124,7 +124,15 @@ export default function ArticlesPage() {
 
   const handlePubMedSearch = () => {
     if (!searchInput.trim()) return;
-    const url = `https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(searchInput.trim())}&sort=relevance`;
+    const q = searchInput.trim().toLowerCase();
+    const match = articles.find(
+      (a) =>
+        a.title.toLowerCase().includes(q) ||
+        a.excerpt.toLowerCase().includes(q) ||
+        (a.pubmedQuery && a.pubmedQuery.toLowerCase().includes(q))
+    );
+    const term = match?.pubmedQuery || searchInput.trim();
+    const url = `https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(term)}&sort=relevance`;
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
@@ -196,7 +204,7 @@ export default function ArticlesPage() {
             title="Искать в PubMed"
           >
             <Icon name="ExternalLink" size={16} className="text-white" />
-            PubMed
+            Перейти
           </button>
         </div>
 
