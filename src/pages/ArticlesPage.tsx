@@ -13,6 +13,7 @@ interface Article {
   date: string;
   readTime: string;
   icon: string;
+  url?: string;
 }
 
 function ArticleModal({ article, onClose }: { article: Article; onClose: () => void }) {
@@ -78,13 +79,16 @@ function ArticleModal({ article, onClose }: { article: Article; onClose: () => v
             >
               Закрыть
             </button>
-            <button
+            <a
+              href={article.url || '#'}
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex-1 btn-flash py-3 rounded-xl font-golos font-semibold text-white text-sm flex items-center justify-center gap-2"
               style={{ backgroundColor: '#3B7DD8' }}
             >
               <Icon name="ExternalLink" size={15} className="text-white" />
               Открыть полную версию
-            </button>
+            </a>
           </div>
         </div>
       </div>
