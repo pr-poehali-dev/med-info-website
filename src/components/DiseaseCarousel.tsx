@@ -97,11 +97,30 @@ export default function DiseaseCarousel({
     setSearchInput(suggestion);
     setSearchQuery(suggestion);
     setShowDropdown(false);
+    const q = suggestion.toLowerCase();
+    const match = items.find((item) =>
+      item.title.toLowerCase().includes(q) ||
+      item.description.toLowerCase().includes(q)
+    );
+    if (match) {
+      onCardClick(match.slug, match.title);
+    } else {
+      onCardClick(q.replace(/\s+/g, '-'), suggestion);
+    }
   };
 
   const handleSearchSubmit = () => {
-    if (searchQuery.trim()) {
-      onCardClick(searchQuery.toLowerCase().replace(/\s+/g, '-'), searchQuery);
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return;
+    const match = items.find((item) =>
+      item.title.toLowerCase().includes(q) ||
+      item.description.toLowerCase().includes(q) ||
+      item.slug.includes(q.replace(/\s+/g, '-'))
+    );
+    if (match) {
+      onCardClick(match.slug, match.title);
+    } else {
+      onCardClick(q.replace(/\s+/g, '-'), searchQuery.trim());
     }
   };
 

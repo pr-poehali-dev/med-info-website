@@ -23,11 +23,19 @@ export default function DetailPage({ slug, title, type, onBack, onOpenAppointmen
   const allItems = [...diseases, ...syndromes] as Array<{
     slug: string;
     title: string;
+    description: string;
     sections?: Array<{ icon: string; title: string; content: string }>;
   }>;
 
-  const found = allItems.find((item) => item.slug === slug);
-  const sections = found?.sections ?? defaultSections(title, type);
+  const normalize = (s: string) =>
+    s.toLowerCase().replace(/ё/g, 'е').replace(/[-_]/g, ' ').trim();
+
+  const found =
+    allItems.find((item) => item.slug === slug) ??
+    allItems.find((item) => normalize(item.title).includes(normalize(slug.replace(/-/g, ' ')))) ??
+    allItems.find((item) => normalize(item.description).includes(normalize(slug.replace(/-/g, ' '))));
+
+  const sections = found?.sections ?? defaultSections(found?.title ?? title, type);
 
   return (
     <div className="pt-24 pb-16 min-h-screen mesh-bg">
@@ -50,7 +58,7 @@ export default function DetailPage({ slug, title, type, onBack, onOpenAppointmen
             </span>
           </div>
           <h1 className="font-cormorant font-bold text-dark-text mb-4" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
-            {title}
+            {found?.title ?? title}
           </h1>
           <p className="text-light-text font-golos text-base leading-relaxed mb-6">
             Подробная информация о данном {type === 'disease' ? 'заболевании' : 'синдроме'} подготовлена командой медицинских редакторов на основе актуальных клинических рекомендаций и результатов научных исследований.
