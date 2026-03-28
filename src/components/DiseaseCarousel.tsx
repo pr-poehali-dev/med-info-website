@@ -200,6 +200,15 @@ export default function DiseaseCarousel({
                 >
                   Перейти →
                 </button>
+                <a
+                  href={`https://ru.wikipedia.org/wiki/${encodeURIComponent(item.title.replace(/ /g, '_'))}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-1.5 w-full py-2 rounded-xl text-xs font-golos font-medium border border-blue-200 bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors"
+                >
+                  <Icon name="ExternalLink" size={12} />
+                  Открыть на Википедии
+                </a>
               </div>
             ))}
           </div>
