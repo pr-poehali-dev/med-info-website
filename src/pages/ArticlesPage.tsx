@@ -125,7 +125,16 @@ export default function ArticlesPage() {
   const getPubMedUrl = () => {
     const q = searchInput.trim();
     if (!q) return '#';
-    return `https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(q)}`;
+    const ql = q.toLowerCase();
+    const match = articles.find(
+      (a) =>
+        a.title.toLowerCase().includes(ql) ||
+        a.excerpt.toLowerCase().includes(ql)
+    );
+    if (match?.pubmedQuery) {
+      return `https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(match.pubmedQuery)}`;
+    }
+    return `https://scholar.google.com/scholar?q=${encodeURIComponent(q)}`;
   };
 
   const years = ['Все', ...Array.from(new Set(articles.map((a) => getYear(a.date)))).sort((a, b) => Number(b) - Number(a))];
@@ -176,7 +185,7 @@ export default function ArticlesPage() {
               value={searchInput}
               onChange={(e) => { setSearchInput(e.target.value); setSearchQuery(e.target.value); setPage(1); }}
               onKeyDown={(e) => { if (e.key === 'Enter' && searchInput.trim()) { window.open(getPubMedUrl(), '_blank', 'noopener,noreferrer'); } }}
-              placeholder="Поиск по статьям или в PubMed..."
+              placeholder="Поиск по статьям... (кнопка → PubMed / Google Scholar)"
               className="w-full pl-12 pr-10 py-3.5 rounded-2xl border border-gray-200 bg-white font-golos text-sm text-dark-text placeholder:text-light-text focus:outline-none focus:ring-2 focus:ring-sage/30 focus:border-sage shadow-sm transition-all"
             />
             {searchInput && (
