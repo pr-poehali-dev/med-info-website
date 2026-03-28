@@ -122,8 +122,8 @@ export default function ArticlesPage() {
     setPage(1);
   };
 
-  const handlePubMedSearch = () => {
-    if (!searchInput.trim()) return;
+  const getPubMedUrl = () => {
+    if (!searchInput.trim()) return '#';
     const q = searchInput.trim().toLowerCase();
     const match = articles.find(
       (a) =>
@@ -132,8 +132,7 @@ export default function ArticlesPage() {
         (a.pubmedQuery && a.pubmedQuery.toLowerCase().includes(q))
     );
     const term = match?.pubmedQuery || searchInput.trim();
-    const url = `https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(term)}&sort=relevance`;
-    window.open(url, '_blank', 'noopener,noreferrer');
+    return `https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(term)}&sort=relevance`;
   };
 
   const years = ['Все', ...Array.from(new Set(articles.map((a) => getYear(a.date)))).sort((a, b) => Number(b) - Number(a))];
@@ -183,7 +182,7 @@ export default function ArticlesPage() {
             <input
               value={searchInput}
               onChange={(e) => { setSearchInput(e.target.value); setSearchQuery(e.target.value); setPage(1); }}
-              onKeyDown={(e) => { if (e.key === 'Enter') handlePubMedSearch(); }}
+              onKeyDown={(e) => { if (e.key === 'Enter' && searchInput.trim()) { window.location.href = getPubMedUrl(); } }}
               placeholder="Поиск по статьям или в PubMed..."
               className="w-full pl-12 pr-10 py-3.5 rounded-2xl border border-gray-200 bg-white font-golos text-sm text-dark-text placeholder:text-light-text focus:outline-none focus:ring-2 focus:ring-sage/30 focus:border-sage shadow-sm transition-all"
             />
@@ -196,16 +195,16 @@ export default function ArticlesPage() {
               </button>
             )}
           </div>
-          <button
-            onClick={handlePubMedSearch}
-            disabled={!searchInput.trim()}
-            className="btn-flash px-5 py-3.5 rounded-2xl font-golos font-semibold text-white text-sm shadow-sm flex items-center gap-2 shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
+          <a
+            href={getPubMedUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`btn-flash px-5 py-3.5 rounded-2xl font-golos font-semibold text-white text-sm shadow-sm flex items-center gap-2 shrink-0 transition-opacity ${!searchInput.trim() ? 'opacity-40 pointer-events-none' : ''}`}
             style={{ backgroundColor: '#3B7DD8' }}
-            title="Искать в PubMed"
           >
             <Icon name="ExternalLink" size={16} className="text-white" />
             Перейти
-          </button>
+          </a>
         </div>
 
         {/* Categories */}
